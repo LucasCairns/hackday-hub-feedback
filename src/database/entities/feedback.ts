@@ -10,8 +10,8 @@ export interface AddFeedbackRequest {
   date: Date;
   establishment: string;
   sessionId: string;
-  categories: string[];
-  secondaryTags: string[];
+  categories?: string[];
+  secondaryTags?: string[];
 }
 
 @Entity('feedback')
@@ -80,8 +80,8 @@ export class Feedback {
       request.date,
       request.establishment,
       request.sessionId,
-      request.categories,
-      request.secondaryTags
+      request.categories || [],
+      request.secondaryTags || []
     );
   }
 }
