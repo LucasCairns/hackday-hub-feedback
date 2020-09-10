@@ -8,6 +8,9 @@
     "rootDir": "./",
     "outDir": "./build",
     "strict": true,
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "exclude": ["node_modules"]
 }
