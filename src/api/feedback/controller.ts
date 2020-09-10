@@ -8,18 +8,19 @@ export function createFeedbackApiController(database: Connection): Router {
 
   router.post('/add', async function addFeedback(req, res) {
     const feedback = database.getRepository(Feedback);
-    const n = Feedback.from({
-      title: req.body.title,
-      url: req.body.url,
-      contentType: req.body.contentType,
-      sentiment: req.body.sentiment,
-      date: new Date(req.body.date),
-      establishment: req.body.establishment,
-      sessionId: req.body.sessionId,
-      categories: req.body.categories || [],
-      secondaryTags: req.body.secondaryTags || [],
-    });
-    await feedback.save(n);
+    await feedback.save(
+      Feedback.from({
+        title: req.body.title,
+        url: req.body.url,
+        contentType: req.body.contentType,
+        sentiment: req.body.sentiment,
+        date: new Date(req.body.date),
+        establishment: req.body.establishment,
+        sessionId: req.body.sessionId,
+        categories: req.body.categories || [],
+        secondaryTags: req.body.secondaryTags || [],
+      })
+    );
     res.send('Created! 🎉');
   });
 
