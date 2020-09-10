@@ -1,12 +1,16 @@
-import express, { Request, Response, Application } from 'express';
+import express, { Application } from 'express';
+import * as bodyParser from 'body-parser';
 import { createApp, ApplicationConfiguration } from './src/';
+import { createFeedbackApiController } from './src/api/feedback/controller';
 
 createApp()
   .then(({ database }: ApplicationConfiguration) => {
     const app: Application = express();
     const port = 8080;
 
-    app.get('/', (req: Request, res: Response) => res.send('Hello World!'));
+    app.use(bodyParser.json());
+
+    app.use('/api', createFeedbackApiController(database));
 
     app.listen(port, () => {
       console.log(`🚀 Server running at http://localhost:${port}`);
