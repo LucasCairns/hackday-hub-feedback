@@ -14,36 +14,36 @@ export interface AddFeedbackRequest {
   secondaryTags: string[];
 }
 
-@Entity()
+@Entity('feedback')
 export class Feedback {
-  @PrimaryColumn('uuid')
+  @PrimaryColumn({ name: 'id', type: 'uuid' })
   id!: string;
 
-  @Column()
+  @Column({ name: 'title' })
   title!: string;
 
-  @Column()
+  @Column({ name: 'url' })
   url!: string;
 
-  @Column()
+  @Column({ name: 'content_type' })
   contentType!: string;
 
-  @Column()
+  @Column({ name: 'sentiment' })
   sentiment!: string;
 
-  @Column('timestamp with time zone')
+  @Column({ name: 'date', type: 'timestamp with time zone' })
   date!: Date;
 
-  @Column()
+  @Column({ name: 'establishment' })
   establishment!: string;
 
-  @Column('uuid')
+  @Column({ name: 'session_id', type: 'uuid' })
   sessionId!: string;
 
-  @Column('jsonb')
+  @Column({ name: 'categories', type: 'jsonb' })
   categories!: string[];
 
-  @Column('jsonb')
+  @Column({ name: 'secondary_tags', type: 'jsonb' })
   secondaryTags!: string[];
 
   constructor(

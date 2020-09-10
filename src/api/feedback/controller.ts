@@ -41,5 +41,23 @@ export function createFeedbackApiController(database: Connection): Router {
     res.json(results);
   });
 
+  router.get('/category/:id', async function getAllFeedback(req, res) {
+    const feedback = database.getRepository(Feedback);
+    const all = await feedback
+      .createQueryBuilder('feedback')
+      .where(`feedback.categories::jsonb ? '${req.params.id}'`)
+      .getMany();
+    res.json(all);
+  });
+
+  router.get('/topic/:id', async function getAllFeedback(req, res) {
+    const feedback = database.getRepository(Feedback);
+    const all = await feedback
+      .createQueryBuilder('feedback')
+      .where(`feedback.secondary_tags::jsonb ? '${req.params.id}'`)
+      .getMany();
+    res.json(all);
+  });
+
   return router;
 }
