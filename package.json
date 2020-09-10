@@ -12,8 +12,10 @@
    "license": "MIT",
    "dependencies": {
       "@types/body-parser": "^1.19.0",
+      "@types/date-fns": "^2.6.0",
       "@types/uuid": "^8.3.0",
       "body-parser": "^1.19.0",
+      "date-fns": "^2.16.1",
       "express": "^4.17.1",
       "pg": "^7.3.0",
       "reflect-metadata": "^0.1.10",
