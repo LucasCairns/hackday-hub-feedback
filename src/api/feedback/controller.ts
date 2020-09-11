@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { Connection, Between } from 'typeorm';
+import { Connection } from 'typeorm';
 import { Feedback } from '../../database/entities/feedback';
-import { startOfDay, endOfDay } from 'date-fns';
+import { FeedbackApiService } from './service';
 
 export function createFeedbackApiController(database: Connection): Router {
   const router = Router();
+  const feedbackService = new FeedbackApiService(database);
 
   router.post('/add', async function addFeedback(req, res) {
-    const feedback = database.getRepository(Feedback);
-    await feedback.save(
+    await feedbackService.create(
       Feedback.from({
         title: req.body.title,
         url: req.body.url,
@@ -25,38 +25,23 @@ export function createFeedbackApiController(database: Connection): Router {
   });
 
   router.get('/all', async function getAllFeedback(req, res) {
-    const feedback = database.getRepository(Feedback);
-    const all = await feedback.find();
+    const all = await feedbackService.findAll();
     res.json(all);
   });
 
   router.get('/today', async function getAllFeedbackBetweenDates(req, res) {
-    const feedback = database.getRepository(Feedback);
     const today = new Date();
-    const results = await feedback.find({
-      date: Between(
-        startOfDay(today).toISOString(),
-        endOfDay(today).toISOString()
-      ),
-    });
+    const results = await feedbackService.findByDateRange(today, today);
     res.json(results);
   });
 
   router.get('/category/:id', async function getAllFeedback(req, res) {
-    const feedback = database.getRepository(Feedback);
-    const all = await feedback
-      .createQueryBuilder('feedback')
-      .where(`feedback.categories::jsonb ? '${req.params.id}'`)
-      .getMany();
+    const all = await feedbackService.findByCategory(req.params.id);
     res.json(all);
   });
 
   router.get('/topic/:id', async function getAllFeedback(req, res) {
-    const feedback = database.getRepository(Feedback);
-    const all = await feedback
-      .createQueryBuilder('feedback')
-      .where(`feedback.secondary_tags::jsonb ? '${req.params.id}'`)
-      .getMany();
+    const all = await feedbackService.findByTopic(req.params.id);
     res.json(all);
   });
 
