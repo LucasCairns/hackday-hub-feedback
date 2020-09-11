@@ -12,6 +12,10 @@ createApp()
 
     app.use('/api', createFeedbackApiController(database));
 
+    app.use((req: Request, res: Response, next: NextFunction) => {
+      res.send(`🤷‍♂️ Not Found - ${req.path}`);
+    });
+
     app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
       res.send(`💥 Something went wrong - ${err.message}`);
     });
