@@ -28,12 +28,12 @@ services:
       - /bin/sh
       - -c
       - |
-        aws --endpoint-url=http://localstack:4575 sns create-topic --feedback_topic_ingress
-        aws --endpoint-url=http://localstack:4575 sns create-topic --feedback_topic_egress
+        aws --endpoint-url=http://localstack:4575 sns create-topic --name feedback_topic_ingress
+        aws --endpoint-url=http://localstack:4575 sns create-topic --name feedback_topic_egress
         aws --endpoint-url=http://localstack:4575 sns list-topics
         aws --endpoint-url=http://localstack:4576 sqs create-queue --queue-name feedback_queue
         aws --endpoint-url=http://localstack:4576 sqs list-queues
-        aws --endpoint-url=http://localstack:4575 sns subscribe --topic-arn arn:aws:sns:eu-west-2:123456789012:feedback_topic_ingress --protocol sqs --notification-endpoint arn:aws:sns:eu-west-2:123456789012:feedback_queue
+        aws --endpoint-url=http://localstack:4575 sns subscribe --topic-arn arn:aws:sns:eu-west-2:000000000000:feedback_topic_ingress --protocol sqs --notification-endpoint arn:aws:sns:eu-west-2:000000000000:feedback_queue
         aws --endpoint-url=http://localstack:4575 sns list-subscriptions
     environment:
       AWS_ACCESS_KEY_ID: UNSET
